@@ -112,7 +112,7 @@ html, body {
 
     <div id="text">
       <div id="line1">🔥 Vayan a seguir a</div>
-      <div id="line2" id="name">Streamer</div>
+      <div id="line2">Streamer</div>
       <div id="line3">que estuvo jugando <span id="game">un juegazo</span></div>
       <div id="line4" id="link">twitch.tv/streamer</div>
     </div>
@@ -137,3 +137,32 @@ if (user) {
     "channel=" + user +
     "&parent=juramentu.github.io" +
     "&parent=obs-browser" +
+    "&parent=localhost" +
+    "&parent=127.0.0.1" +
+    "&autoplay=true&muted=false";
+}
+
+if (game) {
+  document.getElementById("game").textContent = game;
+}
+
+if (link) {
+  document.getElementById("line4").textContent = link;
+}
+
+card.classList.add("show");
+
+const SHOW_TIME = 20000;
+
+setTimeout(() => {
+  card.classList.remove("show");
+  card.classList.add("hide");
+}, SHOW_TIME);
+
+setTimeout(() => {
+  card.style.display = "none";
+}, SHOW_TIME + 700);
+</script>
+
+</body>
+</html>
