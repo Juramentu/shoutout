@@ -26,35 +26,42 @@ html, body {
 
 /* Card principal */
 #card {
-  width: 900px;
-  height: 180px;
+  width: 960px;
+  height: 240px;
   background: linear-gradient(135deg, #9146FF, #5B2EFF);
   border-radius: 24px;
   display: flex;
   align-items: center;
-  padding: 30px;
+  padding: 24px;
+  gap: 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   color: white;
 
-  /* Estado inicial */
   opacity: 0;
   transform: translateX(-120%);
 }
 
-/* Avatar */
-#avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-right: 30px;
-  border: 4px solid rgba(255,255,255,0.6);
-  object-fit: cover;
+/* Video */
+#video {
+  width: 360px;
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: black;
+  flex-shrink: 0;
+}
+
+#video iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 /* Texto */
 #text {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 #title {
@@ -89,12 +96,8 @@ html, body {
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 </style>
 </head>
@@ -103,11 +106,18 @@ html, body {
 
 <div id="wrapper">
   <div id="card">
-    <img id="avatar" src="">
+
+    <!-- VIDEO -->
+    <div id="video">
+      <iframe id="player"></iframe>
+    </div>
+
+    <!-- TEXTO -->
     <div id="text">
       <div id="title">🔥 Shoutout</div>
       <div id="name">Streamer</div>
     </div>
+
   </div>
 </div>
 
@@ -115,29 +125,40 @@ html, body {
 const params = new URLSearchParams(window.location.search);
 const user = params.get("user");
 const card = document.getElementById("card");
+const nameEl = document.getElementById("name");
+const player = document.getElementById("player");
 
-// Aplicar datos
+// Mostrar datos
 if (user) {
-  document.getElementById("name").textContent = user;
-  document.getElementById("avatar").src =
-    "https://static-cdn.jtvnw.net/previews-ttv/live_user_" +
-    user.toLowerCase() +
-    "-200x200.jpg";
+  nameEl.textContent = user;
+
+  // URL del player de Twitch (ESTABLE)
+  let src =
+    "https://player.twitch.tv/?" +
+    "channel=" + user +
+    "&parent=juramentu.github.io" +
+    "&parent=obs-browser" +
+    "&parent=localhost" +
+    "&parent=127.0.0.1" +
+    "&autoplay=true" +
+    "&muted=false";
+
+  player.src = src;
 }
 
-// Mostrar
+// Mostrar card
 card.classList.add("show");
 
 // ⏱️ Tiempo visible
-const SHOW_TIME = 8000; // 8 segundos
+const SHOW_TIME = 12000; // 12 segundos
 
-// Ocultar con fade
+// Ocultar
 setTimeout(() => {
   card.classList.remove("show");
   card.classList.add("hide");
 }, SHOW_TIME);
 
-// 🔚 Quitar completamente del render
+// Quitar del render
 setTimeout(() => {
   card.style.display = "none";
 }, SHOW_TIME + 700);
