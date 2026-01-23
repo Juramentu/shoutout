@@ -131,20 +131,40 @@ const p = new URLSearchParams(window.location.search);
 const user = p.get("user");
 const game = p.get("game");
 const link = p.get("url");
+const clip = p.get("clip");
 
 const card = document.getElementById("card");
+const player = document.getElementById("player");
 
-if (user) {
-  document.getElementById("line2").textContent = user;
-
-  document.getElementById("player").src =
+// ---------- VIDEO ----------
+if (clip) {
+  // 🎬 CLIP
+  player.src =
+    "https://clips.twitch.tv/embed" +
+    "?clip=" + clip +
+    "&parent=juramentu.github.io" +
+    "&parent=obs-browser" +
+    "&parent=localhost" +
+    "&parent=127.0.0.1" +
+    "&autoplay=true" +
+    "&muted=false";
+}
+else if (user) {
+  // 📺 CANAL (fallback)
+  player.src =
     "https://player.twitch.tv/?" +
     "channel=" + user +
     "&parent=juramentu.github.io" +
     "&parent=obs-browser" +
     "&parent=localhost" +
     "&parent=127.0.0.1" +
-    "&autoplay=true&muted=false";
+    "&autoplay=true" +
+    "&muted=false";
+}
+
+// ---------- TEXTO ----------
+if (user) {
+  document.getElementById("line2").textContent = user;
 }
 
 if (game) {
@@ -155,9 +175,10 @@ if (link) {
   document.getElementById("link").textContent = link;
 }
 
+// ---------- ANIMACIÓN ----------
 card.classList.add("show");
 
-const SHOW_TIME = 20000;
+const SHOW_TIME = 20000; // 20 segundos
 
 setTimeout(() => {
   card.classList.remove("show");
