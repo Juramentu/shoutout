@@ -15,7 +15,6 @@ html, body {
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-/* Contenedor general */
 #wrapper {
   width: 100%;
   height: 100%;
@@ -24,16 +23,14 @@ html, body {
   justify-content: center;
 }
 
-/* Card principal */
 #card {
-  width: 960px;
-  height: 240px;
+  width: 1020px;
+  height: 260px;
   background: linear-gradient(135deg, #9146FF, #5B2EFF);
   border-radius: 24px;
   display: flex;
-  align-items: center;
-  padding: 24px;
   gap: 24px;
+  padding: 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   color: white;
 
@@ -41,10 +38,9 @@ html, body {
   transform: translateX(-120%);
 }
 
-/* Video */
 #video {
   width: 360px;
-  height: 200px;
+  height: 210px;
   border-radius: 16px;
   overflow: hidden;
   background: black;
@@ -57,25 +53,34 @@ html, body {
   border: none;
 }
 
-/* Texto */
 #text {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-#title {
+#line1 {
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+#line2 {
+  font-size: 40px;
+  font-weight: 800;
+  margin: 6px 0;
+}
+
+#line3 {
   font-size: 22px;
   opacity: 0.9;
 }
 
-#name {
-  font-size: 42px;
-  font-weight: 800;
-  margin-top: 6px;
+#line4 {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #ffd6ff;
 }
 
-/* Animaciones */
 .show {
   animation: slideIn 0.7s ease-out forwards;
 }
@@ -85,19 +90,13 @@ html, body {
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(-120%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(-120%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes fadeOut {
   from { opacity: 1; }
-  to { opacity: 0; }
+  to   { opacity: 0; }
 }
 </style>
 </head>
@@ -107,64 +106,34 @@ html, body {
 <div id="wrapper">
   <div id="card">
 
-    <!-- VIDEO -->
     <div id="video">
       <iframe id="player"></iframe>
     </div>
 
-    <!-- TEXTO -->
     <div id="text">
-      <div id="title">🔥 Shoutout</div>
-      <div id="name">Streamer</div>
+      <div id="line1">🔥 Vayan a seguir a</div>
+      <div id="line2" id="name">Streamer</div>
+      <div id="line3">que estuvo jugando <span id="game">un juegazo</span></div>
+      <div id="line4" id="link">twitch.tv/streamer</div>
     </div>
 
   </div>
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const user = params.get("user");
+const p = new URLSearchParams(window.location.search);
+
+const user = p.get("user");
+const game = p.get("game");
+const link = p.get("url");
+
 const card = document.getElementById("card");
-const nameEl = document.getElementById("name");
-const player = document.getElementById("player");
 
-// Mostrar datos
 if (user) {
-  nameEl.textContent = user;
+  document.getElementById("line2").textContent = user;
 
-  // URL del player de Twitch (ESTABLE)
-  let src =
+  document.getElementById("player").src =
     "https://player.twitch.tv/?" +
     "channel=" + user +
     "&parent=juramentu.github.io" +
     "&parent=obs-browser" +
-    "&parent=localhost" +
-    "&parent=127.0.0.1" +
-    "&autoplay=true" +
-    "&muted=false";
-
-  player.src = src;
-}
-
-// Mostrar card
-card.classList.add("show");
-
-// ⏱️ Tiempo visible
-const SHOW_TIME = 30000; // 30 segundos
-
-
-// Ocultar
-setTimeout(() => {
-  card.classList.remove("show");
-  card.classList.add("hide");
-}, SHOW_TIME);
-
-// Quitar del render
-setTimeout(() => {
-  card.style.display = "none";
-}, SHOW_TIME + 700);
-</script>
-
-</body>
-</html>
-
