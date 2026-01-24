@@ -203,10 +203,20 @@ setTimeout(() => {
 }, SHOW_TIME);
 
 setTimeout(() => {
+  // 🔇 DETENER AUDIO DEL CLIP
+  if (player) {
+    player.src = "";
+    player.remove();
+  }
+
+  // Ocultar contenedores
+  videoDiv.style.display = "none";
   card.style.display = "none";
 }, SHOW_TIME + 700);
+
 </script>
 
 </body>
 </html>
+
 
