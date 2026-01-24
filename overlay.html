@@ -39,7 +39,7 @@ html, body {
   transform: translateX(-120%);
 }
 
-/* CONTENEDOR IZQUIERDO (CLIP o FOTO) */
+/* CONTENEDOR CLIP */
 #video {
   width: 360px;
   height: 210px;
@@ -47,46 +47,28 @@ html, body {
   overflow: hidden;
   background: black;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* CLIP */
 #video iframe {
   width: 100%;
   height: 100%;
   border: none;
 }
 
-/* FOTO GRANDE CUANDO NO HAY CLIP */
-.profile-only {
-  background: transparent;
-}
-
-.profile-only img {
+/* FOTO DE PERFIL GRANDE */
+#profile {
   width: 210px;
   height: 210px;
-  border-radius: 16px;
-  object-fit: cover;
-  border: 4px solid rgba(255,255,255,0.85);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-}
-
-/* LOGO CENTRAL */
-#logo {
-  width: 110px;
-  height: 110px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#logo img {
+#profile img {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 16px;
   object-fit: cover;
   border: 4px solid rgba(255,255,255,0.85);
   box-shadow: 0 6px 20px rgba(0,0,0,0.5);
@@ -147,14 +129,14 @@ html, body {
 <div id="wrapper">
   <div id="card">
 
-    <!-- CLIP O FOTO -->
+    <!-- CLIP -->
     <div id="video">
       <iframe id="player"></iframe>
     </div>
 
-    <!-- LOGO -->
-    <div id="logo">
-      <img id="avatarLogo" />
+    <!-- FOTO DE PERFIL GRANDE -->
+    <div id="profile">
+      <img id="avatar" />
     </div>
 
     <!-- TEXTO -->
@@ -182,8 +164,19 @@ const avatarUrl = p.get("avatar");
 const card = document.getElementById("card");
 const videoDiv = document.getElementById("video");
 const player = document.getElementById("player");
+const avatarImg = document.getElementById("avatar");
 
-/* VIDEO O FOTO */
+/* FOTO DE PERFIL */
+if (avatarUrl) {
+  avatarImg.src = avatarUrl;
+  avatarImg.onerror = () => {
+    document.getElementById("profile").style.display = "none";
+  };
+} else {
+  document.getElementById("profile").style.display = "none";
+}
+
+/* CLIP */
 if (clip) {
   player.src =
     "https://clips.twitch.tv/embed" +
@@ -194,27 +187,8 @@ if (clip) {
     "&parent=127.0.0.1" +
     "&autoplay=true&muted=false";
 } else {
-  // FOTO DE PERFIL GRANDE
-  videoDiv.classList.add("profile-only");
-  videoDiv.innerHTML = "";
-
-  if (avatarUrl) {
-    const img = document.createElement("img");
-    img.src = avatarUrl;
-    videoDiv.appendChild(img);
-  }
-}
-
-/* LOGO CENTRAL */
-if (avatarUrl) {
-  const logo = document.getElementById("avatarLogo");
-  logo.src = avatarUrl;
-
-  logo.onerror = () => {
-    document.getElementById("logo").style.display = "none";
-  };
-} else {
-  document.getElementById("logo").style.display = "none";
+  // Sin clip → ocultar contenedor de video
+  videoDiv.style.display = "none";
 }
 
 /* TEXTO */
