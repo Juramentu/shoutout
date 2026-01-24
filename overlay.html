@@ -39,7 +39,7 @@ html, body {
   transform: translateX(-120%);
 }
 
-/* -------- VIDEO / CLIP -------- */
+/* VIDEO / CLIP */
 #video {
   width: 360px;
   height: 210px;
@@ -47,8 +47,6 @@ html, body {
   overflow: hidden;
   background: black;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
 }
 
 #video iframe {
@@ -57,7 +55,7 @@ html, body {
   border: none;
 }
 
-/* -------- LOGO GRANDE -------- */
+/* LOGO GRANDE */
 #logo {
   width: 110px;
   height: 110px;
@@ -76,7 +74,7 @@ html, body {
   box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
 
-/* -------- TEXTO -------- */
+/* TEXTO */
 #text {
   display: flex;
   flex-direction: column;
@@ -105,7 +103,7 @@ html, body {
   color: #ffd6ff;
 }
 
-/* -------- ANIMACIONES -------- */
+/* ANIMACIONES */
 .show {
   animation: slideIn 0.7s ease-out forwards;
 }
@@ -131,17 +129,14 @@ html, body {
 <div id="wrapper">
   <div id="card">
 
-    <!-- VIDEO / CLIP -->
     <div id="video">
       <iframe id="player"></iframe>
     </div>
 
-    <!-- LOGO GRANDE -->
     <div id="logo">
       <img id="avatar" />
     </div>
 
-    <!-- TEXTO -->
     <div id="text">
       <div id="line1">🔥🔥🔥 Vayan a seguir a... 🔥🔥🔥</div>
       <div id="line2">Streamer</div>
@@ -161,13 +156,13 @@ const user = p.get("user");
 const game = p.get("game");
 const link = p.get("url");
 const clip = p.get("clip");
+const avatarUrl = p.get("avatar");
 
 const card = document.getElementById("card");
 const player = document.getElementById("player");
 
-// ---------- VIDEO ----------
+/* VIDEO */
 if (clip) {
-  // CLIP
   player.src =
     "https://clips.twitch.tv/embed" +
     "?clip=" + clip +
@@ -175,11 +170,9 @@ if (clip) {
     "&parent=obs-browser" +
     "&parent=localhost" +
     "&parent=127.0.0.1" +
-    "&autoplay=true" +
-    "&muted=false";
+    "&autoplay=true&muted=false";
 }
 else if (user) {
-  // CANAL (fallback)
   player.src =
     "https://player.twitch.tv/?" +
     "channel=" + user +
@@ -187,43 +180,29 @@ else if (user) {
     "&parent=obs-browser" +
     "&parent=localhost" +
     "&parent=127.0.0.1" +
-    "&autoplay=true" +
-    "&muted=false";
+    "&autoplay=true&muted=false";
 }
 
-// ---------- LOGO ----------
-if (user) {
-  const avatarUrl =
-    "https://static-cdn.jtvnw.net/jtv_user_pictures/" +
-    user.toLowerCase() +
-    "-profile_image-300x300.png";
-
+/* LOGO */
+if (avatarUrl) {
   const avatar = document.getElementById("avatar");
   avatar.src = avatarUrl;
-
   avatar.onerror = () => {
     document.getElementById("logo").style.display = "none";
   };
+} else {
+  document.getElementById("logo").style.display = "none";
 }
 
-// ---------- TEXTO ----------
-if (user) {
-  document.getElementById("line2").textContent = user;
-}
+/* TEXTO */
+if (user) document.getElementById("line2").textContent = user;
+if (game) document.getElementById("game").textContent = game;
+if (link) document.getElementById("link").textContent = link;
 
-if (game) {
-  document.getElementById("game").textContent = game;
-}
-
-if (link) {
-  document.getElementById("link").textContent = link;
-}
-
-// ---------- MOSTRAR / OCULTAR ----------
+/* MOSTRAR / OCULTAR */
 card.classList.add("show");
 
-const SHOW_TIME = 20000; // 20 segundos
-
+const SHOW_TIME = 20000;
 setTimeout(() => {
   card.classList.remove("show");
   card.classList.add("hide");
