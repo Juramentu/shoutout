@@ -34,12 +34,11 @@ html, body {
   padding: 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   color: white;
-
   opacity: 0;
   transform: translateX(-120%);
 }
 
-/* CONTENEDOR CLIP */
+/* CLIP */
 #video {
   width: 360px;
   height: 210px;
@@ -55,7 +54,7 @@ html, body {
   border: none;
 }
 
-/* FOTO DE PERFIL GRANDE */
+/* FOTO PERFIL */
 #profile {
   width: 210px;
   height: 210px;
@@ -81,36 +80,14 @@ html, body {
   justify-content: center;
 }
 
-#line1 {
-  font-size: 24px;
-  opacity: 0.9;
-}
-
-#line2 {
-  font-size: 40px;
-  font-weight: 800;
-  margin: 6px 0;
-}
-
-#line3 {
-  font-size: 22px;
-  opacity: 0.9;
-}
-
-#link {
-  font-size: 20px;
-  margin-top: 10px;
-  color: #ffd6ff;
-}
+#line1 { font-size: 24px; opacity: 0.9; }
+#line2 { font-size: 40px; font-weight: 800; margin: 6px 0; }
+#line3 { font-size: 22px; opacity: 0.9; }
+#link  { font-size: 20px; margin-top: 10px; color: #ffd6ff; }
 
 /* ANIMACIONES */
-.show {
-  animation: slideIn 0.7s ease-out forwards;
-}
-
-.hide {
-  animation: fadeOut 0.6s ease-in forwards;
-}
+.show { animation: slideIn 0.7s ease-out forwards; }
+.hide { animation: fadeOut 0.6s ease-in forwards; }
 
 @keyframes slideIn {
   from { transform: translateX(-120%); opacity: 0; }
@@ -129,23 +106,18 @@ html, body {
 <div id="wrapper">
   <div id="card">
 
-    <!-- CLIP -->
     <div id="video">
       <iframe id="player"></iframe>
     </div>
 
-    <!-- FOTO DE PERFIL GRANDE -->
     <div id="profile">
       <img id="avatar" />
     </div>
 
-    <!-- TEXTO -->
     <div id="text">
       <div id="line1">🔥🔥🔥 Vayan a seguir a... 🔥🔥🔥</div>
       <div id="line2">Streamer</div>
-      <div id="line3">
-        Que estuvo jugando... 🎮 <span id="game">un juegazo</span>
-      </div>
+      <div id="line3">Que estuvo jugando... 🎮 <span id="game">un juegazo</span></div>
       <div id="link">twitch.tv/streamer</div>
     </div>
 
@@ -159,21 +131,18 @@ const user = p.get("user");
 const game = p.get("game");
 const link = p.get("url");
 const clip = p.get("clip");
-const avatarUrl = p.get("avatar");
 
 const card = document.getElementById("card");
 const videoDiv = document.getElementById("video");
 const player = document.getElementById("player");
-const avatarImg = document.getElementById("avatar");
+const avatar = document.getElementById("avatar");
 
-/* FOTO DE PERFIL */
-if (avatarUrl) {
-  avatarImg.src = avatarUrl;
-  avatarImg.onerror = () => {
-    document.getElementById("profile").style.display = "none";
-  };
-} else {
-  document.getElementById("profile").style.display = "none";
+/* AVATAR DESDE TWITCH */
+if (user) {
+  fetch("https://decapi.me/twitch/avatar/" + user)
+    .then(r => r.text())
+    .then(url => avatar.src = url)
+    .catch(() => document.getElementById("profile").style.display = "none");
 }
 
 /* CLIP */
@@ -187,7 +156,6 @@ if (clip) {
     "&parent=127.0.0.1" +
     "&autoplay=true&muted=false";
 } else {
-  // Sin clip → ocultar contenedor de video
   videoDiv.style.display = "none";
 }
 
@@ -196,19 +164,11 @@ if (user) document.getElementById("line2").textContent = user;
 if (game) document.getElementById("game").textContent = game;
 if (link) document.getElementById("link").textContent = link;
 
-/* MOSTRAR / OCULTAR */
+/* MOSTRAR */
 card.classList.add("show");
 
-const SHOW_TIME = 20000;
-
-setTimeout(() => {
-  card.classList.remove("show");
-  card.classList.add("hide");
-}, SHOW_TIME);
-
-setTimeout(() => {
-  card.style.display = "none";
-}, SHOW_TIME + 700);
+setTimeout(() => card.classList.add("hide"), 20000);
+setTimeout(() => card.style.display = "none", 20700);
 </script>
 
 </body>
