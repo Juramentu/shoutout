@@ -161,7 +161,7 @@ const avatarUrl = p.get("avatar");
 const card = document.getElementById("card");
 const player = document.getElementById("player");
 
-/* VIDEO */
+/* VIDEO: SOLO CLIP */
 if (clip) {
   player.src =
     "https://clips.twitch.tv/embed" +
@@ -171,16 +171,9 @@ if (clip) {
     "&parent=localhost" +
     "&parent=127.0.0.1" +
     "&autoplay=true&muted=false";
-}
-else if (user) {
-  player.src =
-    "https://player.twitch.tv/?" +
-    "channel=" + user +
-    "&parent=juramentu.github.io" +
-    "&parent=obs-browser" +
-    "&parent=localhost" +
-    "&parent=127.0.0.1" +
-    "&autoplay=true&muted=false";
+} else {
+  // No hay clip → ocultar video
+  document.getElementById("video").style.display = "none";
 }
 
 /* LOGO */
@@ -215,3 +208,4 @@ setTimeout(() => {
 
 </body>
 </html>
+
