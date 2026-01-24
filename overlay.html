@@ -26,14 +26,16 @@ html, body {
 #card {
   width: 1020px;
   height: 260px;
-  background: linear-gradient(135deg, #9146FF, #5B2EFF);
+  background: #1F2334; /* 🎨 COLOR NUEVO */
   border-radius: 24px;
   display: flex;
   align-items: center;
   gap: 28px;
   padding: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.7),
+              inset 0 0 0 1px rgba(255,255,255,0.06);
   color: white;
+
   opacity: 0;
   transform: translateX(-120%);
 }
@@ -80,14 +82,36 @@ html, body {
   justify-content: center;
 }
 
-#line1 { font-size: 24px; opacity: 0.9; }
-#line2 { font-size: 40px; font-weight: 800; margin: 6px 0; }
-#line3 { font-size: 22px; opacity: 0.9; }
-#link  { font-size: 20px; margin-top: 10px; color: #ffd6ff; }
+#line1 {
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+#line2 {
+  font-size: 40px;
+  font-weight: 800;
+  margin: 6px 0;
+}
+
+#line3 {
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+#link {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #c9cfff;
+}
 
 /* ANIMACIONES */
-.show { animation: slideIn 0.7s ease-out forwards; }
-.hide { animation: fadeOut 0.6s ease-in forwards; }
+.show {
+  animation: slideIn 0.7s ease-out forwards;
+}
+
+.hide {
+  animation: fadeOut 0.6s ease-in forwards;
+}
 
 @keyframes slideIn {
   from { transform: translateX(-120%); opacity: 0; }
@@ -106,18 +130,23 @@ html, body {
 <div id="wrapper">
   <div id="card">
 
+    <!-- CLIP -->
     <div id="video">
       <iframe id="player"></iframe>
     </div>
 
+    <!-- FOTO DE PERFIL -->
     <div id="profile">
       <img id="avatar" />
     </div>
 
+    <!-- TEXTO -->
     <div id="text">
       <div id="line1">🔥🔥🔥 Vayan a seguir a... 🔥🔥🔥</div>
       <div id="line2">Streamer</div>
-      <div id="line3">Que estuvo jugando... 🎮 <span id="game">un juegazo</span></div>
+      <div id="line3">
+        Que estuvo jugando... 🎮 <span id="game">un juegazo</span>
+      </div>
       <div id="link">twitch.tv/streamer</div>
     </div>
 
@@ -164,11 +193,18 @@ if (user) document.getElementById("line2").textContent = user;
 if (game) document.getElementById("game").textContent = game;
 if (link) document.getElementById("link").textContent = link;
 
-/* MOSTRAR */
+/* MOSTRAR / OCULTAR */
 card.classList.add("show");
 
-setTimeout(() => card.classList.add("hide"), 20000);
-setTimeout(() => card.style.display = "none", 20700);
+const SHOW_TIME = 20000;
+
+setTimeout(() => {
+  card.classList.add("hide");
+}, SHOW_TIME);
+
+setTimeout(() => {
+  card.style.display = "none";
+}, SHOW_TIME + 700);
 </script>
 
 </body>
