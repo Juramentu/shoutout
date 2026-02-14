@@ -82,6 +82,7 @@ html, body {
   overflow: hidden;
   background: black;
   flex-shrink: 0;
+  display: none;
 }
 
 #video iframe {
@@ -111,12 +112,10 @@ html, body {
 <div id="wrapper">
   <div id="card">
 
-    <!-- FOTO -->
     <div id="profile">
       <img id="avatar" />
     </div>
 
-    <!-- TEXTO -->
     <div id="text">
       <div id="line1">🔥🔥🔥 Vayan a seguir a... 🔥🔥🔥</div>
       <div id="line2">Streamer</div>
@@ -124,7 +123,6 @@ html, body {
       <div id="link">twitch.tv/streamer</div>
     </div>
 
-    <!-- CLIP -->
     <div id="video">
       <iframe id="player"></iframe>
     </div>
@@ -133,65 +131,52 @@ html, body {
 </div>
 
 <script>
-const p = new URLSearchParams(window.location.search);
-
-const user = p.get("user");
-const game = p.get("game");
-const link = p.get("url");
-const clip = p.get("clip");
-
 const card = document.getElementById("card");
+const avatar = document.getElementById("avatar");
 const videoDiv = document.getElementById("video");
 const player = document.getElementById("player");
-const avatar = document.getElementById("avatar");
 
-/* AVATAR DESDE TWITCH */
-if (user) {
+window.showShoutout = function(user, game, url, clip) {
+
+  document.getElementById("line2").textContent = user;
+  document.getElementById("game").textContent = game;
+  document.getElementById("link").textContent = url;
+
+  // Avatar
   fetch("https://decapi.me/twitch/avatar/" + user)
     .then(r => r.text())
-    .then(url => avatar.src = url)
-    .catch(() => document.getElementById("profile").style.display = "none");
-}
+    .then(img => avatar.src = img);
 
-/* CLIP */
-if (clip) {
-  player.src =
-    "https://clips.twitch.tv/embed?clip=" + clip +
-    "&parent=juramentu.github.io" +
-    "&parent=obs-browser" +
-    "&parent=localhost" +
-    "&parent=127.0.0.1" +
-    "&autoplay=true&muted=false";
-} else {
-  // Sin clip → ocultar contenedor
-  videoDiv.style.display = "none";
-}
-
-/* TEXTO */
-if (user) document.getElementById("line2").textContent = user;
-if (game) document.getElementById("game").textContent = game;
-if (link) document.getElementById("link").textContent = link;
-
-/* MOSTRAR */
-card.classList.add("show");
-
-const SHOW_TIME = 20000;
-
-setTimeout(() => {
-  card.classList.add("hide");
-}, SHOW_TIME);
-
-setTimeout(() => {
-  // 🔇 cortar audio
-  if (player) {
+  // Clip opcional
+  if (clip && clip !== "") {
+    videoDiv.style.display = "block";
+    player.src =
+      "https://clips.twitch.tv/embed?clip=" + clip +
+      "&parent=juramentu.github.io" +
+      "&parent=localhost" +
+      "&autoplay=true&muted=false";
+  } else {
+    videoDiv.style.display = "none";
     player.src = "";
-    player.remove();
   }
-  card.style.display = "none";
-}, SHOW_TIME + 700);
+
+  // Mostrar
+  card.classList.remove("hide");
+  card.style.display = "flex";
+  card.classList.add("show");
+
+  // Ocultar después de 20s
+  setTimeout(() => {
+    card.classList.remove("show");
+    card.classList.add("hide");
+
+    setTimeout(() => {
+      player.src = "";
+    }, 600);
+
+  }, 20000);
+};
 </script>
 
 </body>
 </html>
-
-
