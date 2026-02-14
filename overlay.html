@@ -30,7 +30,7 @@ html, body {
   border-radius: 28px;
   display: flex;
   align-items: center;
-  justify-content: center; /* centra el bloque interno */
+  justify-content: center;
   gap: 40px;
   padding: 35px 50px;
   box-shadow: 0 25px 50px rgba(0,0,0,0.65);
@@ -58,8 +58,8 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;   /* centra horizontalmente */
-  text-align: center;    /* centra texto */
+  align-items: center;
+  text-align: center;
 }
 
 #line1 {
@@ -85,19 +85,10 @@ html, body {
   animation: slideIn 0.7s ease-out forwards;
 }
 
-.hide {
-  animation: fadeOut 0.6s ease-in forwards;
-}
-
 @keyframes slideIn {
   0%   { transform: translateX(-120%) scale(0.95); opacity: 0; }
   60%  { transform: translateX(10px) scale(1.02); opacity: 1; }
   100% { transform: translateX(0) scale(1); }
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
 }
 </style>
 </head>
@@ -125,14 +116,12 @@ const params = new URLSearchParams(window.location.search);
 const user = params.get("user") || "streamer";
 const game = params.get("game") || "un juegazo";
 
-// Texto dinámico
 document.getElementById("line1").innerHTML =
   "Vayan a seguir a... ❤️‍🔥 <strong>" + user + "</strong> ❤️‍🔥";
 
 document.getElementById("line2").innerHTML =
   "que estuvo jugando... 🎮 <strong>" + game + "</strong> 🎮";
 
-// Avatar Twitch
 fetch("https://decapi.me/twitch/avatar/" + user)
   .then(r => r.text())
   .then(url => {
@@ -142,15 +131,8 @@ fetch("https://decapi.me/twitch/avatar/" + user)
     document.getElementById("avatar").style.display = "none";
   });
 
-// Mostrar animación
 const card = document.getElementById("card");
 card.classList.add("show");
-
-// Ocultar después de 20 segundos
-setTimeout(() => {
-  card.classList.remove("show");
-  card.classList.add("hide");
-}, 20000);
 </script>
 
 </body>
