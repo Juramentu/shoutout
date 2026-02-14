@@ -6,16 +6,18 @@
 <style>
 body {
   margin: 0;
-  background: transparent;
+  background: #111;
   font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #card {
-  width: 800px;
-  margin: 200px auto;
-  padding: 20px;
   background: #1F2334;
   color: white;
+  padding: 30px;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -41,17 +43,21 @@ body {
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const user = params.get("user") || "streamer";
+try {
+  const params = new URLSearchParams(window.location.search);
+  const user = params.get("user") || "streamer";
 
-document.getElementById("name").textContent = user;
-document.getElementById("link").textContent = "twitch.tv/" + user;
+  document.getElementById("name").textContent = user;
+  document.getElementById("link").textContent = "twitch.tv/" + user;
 
-fetch("https://decapi.me/twitch/avatar/" + user)
-  .then(r => r.text())
-  .then(url => {
-    document.getElementById("avatar").src = url;
-  });
+  fetch("https://decapi.me/twitch/avatar/" + user)
+    .then(r => r.text())
+    .then(url => {
+      document.getElementById("avatar").src = url;
+    });
+} catch (e) {
+  document.body.innerHTML = "<h1 style='color:white'>JS ERROR</h1>";
+}
 </script>
 
 </body>
