@@ -24,21 +24,21 @@ html, body {
 }
 
 #card {
-  width: 1000px;              /* más ancho */
-  min-height: 260px;          /* más alto */
+  width: 1000px;
+  min-height: 260px;
   background: #1F2334;
   border-radius: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 60px;                  /* más espacio */
+  gap: 60px;
   padding: 50px 70px;
   box-shadow: 0 30px 60px rgba(0,0,0,0.7);
   color: white;
 }
 
 #profile {
-  width: 200px;               /* avatar más grande */
+  width: 200px;
   height: 200px;
   flex-shrink: 0;
 }
@@ -60,7 +60,7 @@ html, body {
 }
 
 #line1 {
-  font-size: 34px;            /* texto más grande */
+  font-size: 34px;
   margin-bottom: 18px;
 }
 
@@ -91,7 +91,7 @@ html, body {
 
     <div id="text">
       <div id="line1"></div>
-      <div id="line2"></div>
+      <div id="line2">Cargando categoría...</div>
     </div>
 
   </div>
@@ -99,16 +99,13 @@ html, body {
 
 <script>
 const params = new URLSearchParams(window.location.search);
-
 const user = params.get("user") || "streamer";
-const game = params.get("game") || "un juegazo";
 
+// Texto principal
 document.getElementById("line1").innerHTML =
   "Vayan a seguir a... ❤️‍🔥 <strong>" + user + "</strong> ❤️‍🔥";
 
-document.getElementById("line2").innerHTML =
-  "que estuvo jugando... 🎮 <strong>" + game + "</strong> 🎮";
-
+// Avatar
 fetch("https://decapi.me/twitch/avatar/" + user)
   .then(r => r.text())
   .then(url => {
@@ -116,6 +113,25 @@ fetch("https://decapi.me/twitch/avatar/" + user)
   })
   .catch(() => {
     document.getElementById("avatar").style.display = "none";
+  });
+
+// 🔥 Obtener juego automáticamente
+fetch("https://decapi.me/twitch/game/" + user)
+  .then(r => r.text())
+  .then(game => {
+
+    if (!game || game.includes("offline") || game.includes("404")) {
+      document.getElementById("line2").innerHTML =
+        "que estuvo jugando... 🎮 <strong>Última categoría desconocida</strong> 🎮";
+    } else {
+      document.getElementById("line2").innerHTML =
+        "que estuvo jugando... 🎮 <strong>" + game + "</strong> 🎮";
+    }
+
+  })
+  .catch(() => {
+    document.getElementById("line2").innerHTML =
+      "que estuvo jugando... 🎮 <strong>Sin categoría</strong> 🎮";
   });
 </script>
 
