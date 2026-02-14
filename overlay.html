@@ -24,15 +24,16 @@ html, body {
 }
 
 #card {
-  width: 950px;
-  height: 240px;
+  width: 820px;
+  min-height: 200px;
   background: #1F2334;
-  border-radius: 24px;
+  border-radius: 28px;
   display: flex;
   align-items: center;
-  gap: 30px;
-  padding: 30px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+  justify-content: center;
+  gap: 40px;
+  padding: 35px 50px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.65);
   color: white;
 
   opacity: 0;
@@ -40,33 +41,43 @@ html, body {
 }
 
 #profile {
-  width: 170px;
-  height: 170px;
+  width: 160px;
+  height: 160px;
   flex-shrink: 0;
 }
 
 #profile img {
   width: 100%;
   height: 100%;
-  border-radius: 18px;
+  border-radius: 20px;
   object-fit: cover;
-  border: 4px solid rgba(255,255,255,0.85);
+  border: 5px solid rgba(255,255,255,0.9);
 }
 
 #text {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: left;
 }
 
 #line1 {
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+#line1 strong {
+  font-size: 32px;
 }
 
 #line2 {
   font-size: 20px;
   opacity: 0.9;
+}
+
+#line2 strong {
+  color: #a970ff;
+  font-size: 22px;
 }
 
 .show {
@@ -78,8 +89,9 @@ html, body {
 }
 
 @keyframes slideIn {
-  from { transform: translateX(-120%); opacity: 0; }
-  to   { transform: translateX(0); opacity: 1; }
+  0%   { transform: translateX(-120%) scale(0.95); opacity: 0; }
+  60%  { transform: translateX(10px) scale(1.02); opacity: 1; }
+  100% { transform: translateX(0) scale(1); }
 }
 
 @keyframes fadeOut {
@@ -129,11 +141,11 @@ fetch("https://decapi.me/twitch/avatar/" + user)
     document.getElementById("avatar").style.display = "none";
   });
 
-// Mostrar
+// Mostrar animación
 const card = document.getElementById("card");
 card.classList.add("show");
 
-// Ocultar después de 20s
+// Ocultar después de 20 segundos
 setTimeout(() => {
   card.classList.remove("show");
   card.classList.add("hide");
